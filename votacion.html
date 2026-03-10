@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votaci&oacute;n &mdash; Ideando Cantabria</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --teal: #1a3a3a;
+            --teal-deep: #122c2c;
+            --crema: #f5f2ed;
+            --cobre: #b87333;
+            --cobre-hover: #a0622b;
+            --dorado: #c9a96e;
+            --blanco: #ffffff;
+            --texto: #3a3a3a;
+            --texto-light: #6b6b6b;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--crema);
+            color: var(--texto);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1.2;
+        }
+
+        /* ===== HEADER ===== */
+        .app-header {
+            background: var(--teal);
+            padding: 1rem 1.5rem;
+            text-align: center;
+        }
+
+        .app-header h1 {
+            color: var(--crema);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .app-header h1 em {
+            color: var(--dorado);
+            font-style: italic;
+        }
+
+        /* ===== SCREENS ===== */
+        .screen {
+            display: none;
+            flex: 1;
+            padding: 2rem 1.5rem;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== SCREEN: ENTRY ===== */
+        .entry-screen {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 2rem;
+        }
+
+        .entry-icon {
+            font-size: 3rem;
+        }
+
+        .entry-screen h2 {
+            font-size: 2rem;
+            color: var(--teal);
+        }
+
+        .entry-screen p {
+            color: var(--texto-light);
+            font-size: 0.95rem;
+        }
+
+        .entry-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 1rem 1.2rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.2rem;
+            text-align: center;
+            border: 2px solid rgba(26, 58, 58, 0.15);
+            border-radius: 8px;
+            background: var(--blanco);
+            color: var(--teal);
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            outline: none;
+            text-transform: uppercase;
+            transition: border-color 0.3s;
+        }
+
+        .entry-input:focus {
+            border-color: var(--cobre);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--cobre);
+            color: var(--crema);
+            border: none;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--cobre-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--teal);
+            border: 1px solid rgba(26, 58, 58, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(26, 58, 58, 0.05);
+        }
+
+        .entry-error {
+            color: #c0392b;
+            font-size: 0.85rem;
+            min-height: 1.2em;
+        }
+
+        /* ===== QR SECTION ===== */
+        .qr-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(26, 58, 58, 0.1);
+        }
+
+        .qr-section p {
+            font-size: 0.8rem;
+            color: var(--texto-light);
+            margin-bottom: 1rem;
+        }
+
+        .qr-container {
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: inline-block;
+            box-shadow: 0 4px 20px rgba(26, 58, 58, 0.06);
+        }
+
+        /* ===== SCREEN: VOTING ===== */
+        .voting-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .voting-header .event-code {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--cobre);
+            margin-bottom: 0.3rem;
+        }
+
+        .idea-counter {
+            font-size: 0.8rem;
+            color: var(--texto-light);
+        }
+
+        .idea-card {
+            background: var(--blanco);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(26, 58, 58, 0.06);
+            border: 1px solid rgba(26, 58, 58, 0.06);
+        }
+
+        .idea-card h3 {
+            font-size: 1.5rem;
+            color: var(--teal);
+            margin-bottom: 0.8rem;
+        }
+
+        .idea-card p {
+            color: var(--texto-light);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* ===== SLIDERS ===== */
+        .sliders {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-group {
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(26, 58, 58, 0.04);
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .slider-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--teal);
+        }
+
+        .slider-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--cobre);
+            min-width: 2ch;
+            text-align: right;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: rgba(26, 58, 58, 0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--cobre);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(184, 115, 51, 0.3);
+            transition: transform 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--cobre);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(184, 115, 51, 0.3);
+        }
+
+        .vote-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .vote-actions .btn {
+            flex: 1;
+            text-align: center;
+        }
+
+        /* ===== SCREEN: SUMMARY ===== */
+        .summary-screen {
+            gap: 1.5rem;
+        }
+
+        .summary-screen h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--teal);
+        }
+
+        .summary-sub {
+            text-align: center;
+            color: var(--texto-light);
+            font-size: 0.9rem;
+        }
+
+        .summary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .summary-item {
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(26, 58, 58, 0.04);
+        }
+
+        .summary-item h4 {
+            font-size: 1.1rem;
+            color: var(--teal);
+            margin-bottom: 0.6rem;
+        }
+
+        .summary-scores {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .summary-score {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .summary-score-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--cobre);
+        }
+
+        .summary-score-label {
+            font-size: 0.65rem;
+            color: var(--texto-light);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .summary-avg {
+            text-align: center;
+            margin-top: 0.3rem;
+            font-size: 0.8rem;
+            color: var(--dorado);
+            font-weight: 600;
+        }
+
+        .summary-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--teal);
+            color: var(--crema);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 30px rgba(26, 58, 58, 0.2);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <h1>Ideando <em>Cantabria</em> &mdash; Votaci&oacute;n</h1>
+    </header>
+
+    <!-- SCREEN 1: ENTRY -->
+    <div class="screen entry-screen active" id="entryScreen">
+        <div class="entry-icon">&#128499;&#65039;</div>
+        <h2>Vota las ideas</h2>
+        <p>Introduce el c&oacute;digo del evento para comenzar a votar.</p>
+        <input type="text" class="entry-input" id="eventCode" placeholder="IC-001" maxlength="10">
+        <p class="entry-error" id="entryError"></p>
+        <button class="btn" id="enterBtn" onclick="enterEvent()">Entrar</button>
+
+        <div class="qr-section">
+            <p>Comparte este QR para que otros puedan votar:</p>
+            <div class="qr-container">
+                <svg id="qrCode" width="160" height="160" viewBox="0 0 160 160"></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: VOTING -->
+    <div class="screen" id="votingScreen">
+        <div class="voting-header">
+            <div class="event-code" id="currentEventCode"></div>
+            <div class="idea-counter" id="ideaCounter"></div>
+        </div>
+
+        <div class="idea-card">
+            <h3 id="ideaTitle"></h3>
+            <p id="ideaDesc"></p>
+        </div>
+
+        <div class="sliders">
+            <div class="slider-group">
+                <div class="slider-header">
+                    <span class="slider-label">Viabilidad</span>
+                    <span class="slider-value" id="viabilidadValue">5</span>
+                </div>
+                <input type="range" id="viabilidad" min="1" max="10" value="5" oninput="updateSlider('viabilidad')">
+            </div>
+            <div class="slider-group">
+                <div class="slider-header">
+                    <span class="slider-label">Innovaci&oacute;n</span>
+                    <span class="slider-value" id="innovacionValue">5</span>
+                </div>
+                <input type="range" id="innovacion" min="1" max="10" value="5" oninput="updateSlider('innovacion')">
+            </div>
+            <div class="slider-group">
+                <div class="slider-header">
+                    <span class="slider-label">Impacto en Cantabria</span>
+                    <span class="slider-value" id="impactoValue">5</span>
+                </div>
+                <input type="range" id="impacto" min="1" max="10" value="5" oninput="updateSlider('impacto')">
+            </div>
+        </div>
+
+        <div class="vote-actions">
+            <button class="btn btn-secondary" onclick="skipIdea()">Saltar</button>
+            <button class="btn" onclick="submitVote()">Enviar voto</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: SUMMARY -->
+    <div class="screen summary-screen" id="summaryScreen">
+        <h2>Resumen de tus votos</h2>
+        <p class="summary-sub" id="summaryCount"></p>
+        <div class="summary-list" id="summaryList"></div>
+        <div class="summary-actions">
+            <a href="index.html" class="btn btn-secondary">Volver al inicio</a>
+            <button class="btn" onclick="resetVoting()">Nueva sesi&oacute;n</button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ===== DEMO IDEAS =====
+        const DEMO_IDEAS = [
+            {
+                id: 1,
+                title: 'Huertos urbanos comunitarios',
+                desc: 'Red de huertos urbanos en solares abandonados de Santander, gestionados por vecinos. Incluye formaci\u00f3n, herramientas compartidas y venta de excedentes en mercados locales.'
+            },
+            {
+                id: 2,
+                title: 'App de carpooling rural',
+                desc: 'Plataforma para compartir coche entre pueblos de Cantabria sin transporte p\u00fablico. Conecta conductores y pasajeros con rutas flexibles y pago compartido.'
+            },
+            {
+                id: 3,
+                title: 'Escuela de oficios del mar',
+                desc: 'Centro de formaci\u00f3n en oficios mar\u00edtimos tradicionales (redes, navegaci\u00f3n, conservas) combinados con tecnolog\u00eda moderna. Preservar el patrimonio generando empleo.'
+            },
+            {
+                id: 4,
+                title: 'Cantabria en datos abiertos',
+                desc: 'Portal de datos abiertos que centralice informaci\u00f3n p\u00fablica de todos los municipios: presupuestos, obras, contratos, medio ambiente. Transparencia total.'
+            },
+            {
+                id: 5,
+                title: 'Caf\u00e9 intergeneracional',
+                desc: 'Espacio f\u00edsico donde j\u00f3venes y mayores se encuentran para intercambiar conocimientos: los seniors ense\u00f1an oficios, los j\u00f3venes ense\u00f1an tecnolog\u00eda.'
+            }
+        ];
+
+        let currentIdeaIndex = 0;
+        let eventCode = '';
+        let votes = [];
+
+        // ===== SCREEN MANAGEMENT =====
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        // ===== ENTRY =====
+        function enterEvent() {
+            const code = document.getElementById('eventCode').value.trim().toUpperCase();
+            const error = document.getElementById('entryError');
+
+            if (!code) {
+                error.textContent = 'Introduce un c\u00f3digo de evento';
+                return;
+            }
+
+            eventCode = code;
+            currentIdeaIndex = 0;
+            votes = [];
+
+            // Load saved votes
+            const saved = localStorage.getItem('ic-votes-' + eventCode);
+            if (saved) {
+                votes = JSON.parse(saved);
+                currentIdeaIndex = votes.length;
+            }
+
+            if (currentIdeaIndex >= DEMO_IDEAS.length) {
+                showSummary();
+                return;
+            }
+
+            showVotingScreen();
+        }
+
+        // Enter key on input
+        document.getElementById('eventCode').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') enterEvent();
+        });
+
+        // ===== VOTING =====
+        function showVotingScreen() {
+            document.getElementById('currentEventCode').textContent = 'Evento: ' + eventCode;
+            loadIdea();
+            showScreen('votingScreen');
+        }
+
+        function loadIdea() {
+            const idea = DEMO_IDEAS[currentIdeaIndex];
+            document.getElementById('ideaTitle').textContent = idea.title;
+            document.getElementById('ideaDesc').textContent = idea.desc;
+            document.getElementById('ideaCounter').textContent =
+                'Idea ' + (currentIdeaIndex + 1) + ' de ' + DEMO_IDEAS.length;
+
+            // Reset sliders
+            ['viabilidad', 'innovacion', 'impacto'].forEach(id => {
+                document.getElementById(id).value = 5;
+                document.getElementById(id + 'Value').textContent = '5';
+            });
+        }
+
+        function updateSlider(id) {
+            const val = document.getElementById(id).value;
+            document.getElementById(id + 'Value').textContent = val;
+        }
+
+        function submitVote() {
+            const idea = DEMO_IDEAS[currentIdeaIndex];
+            const vote = {
+                ideaId: idea.id,
+                ideaTitle: idea.title,
+                viabilidad: parseInt(document.getElementById('viabilidad').value),
+                innovacion: parseInt(document.getElementById('innovacion').value),
+                impacto: parseInt(document.getElementById('impacto').value),
+                timestamp: new Date().toISOString()
+            };
+
+            votes.push(vote);
+            localStorage.setItem('ic-votes-' + eventCode, JSON.stringify(votes));
+
+            showToast('\u2713 Voto registrado');
+
+            currentIdeaIndex++;
+            if (currentIdeaIndex >= DEMO_IDEAS.length) {
+                setTimeout(showSummary, 600);
+            } else {
+                setTimeout(loadIdea, 400);
+            }
+        }
+
+        function skipIdea() {
+            currentIdeaIndex++;
+            if (currentIdeaIndex >= DEMO_IDEAS.length) {
+                showSummary();
+            } else {
+                loadIdea();
+            }
+        }
+
+        // ===== SUMMARY =====
+        function showSummary() {
+            const list = document.getElementById('summaryList');
+            const count = document.getElementById('summaryCount');
+            list.innerHTML = '';
+            count.textContent = 'Has votado ' + votes.length + ' de ' + DEMO_IDEAS.length + ' ideas';
+
+            votes.forEach(vote => {
+                const avg = ((vote.viabilidad + vote.innovacion + vote.impacto) / 3).toFixed(1);
+                const item = document.createElement('div');
+                item.className = 'summary-item';
+                item.innerHTML = `
+                    <h4>${vote.ideaTitle}</h4>
+                    <div class="summary-scores">
+                        <div class="summary-score">
+                            <span class="summary-score-value">${vote.viabilidad}</span>
+                            <span class="summary-score-label">Viabilidad</span>
+                        </div>
+                        <div class="summary-score">
+                            <span class="summary-score-value">${vote.innovacion}</span>
+                            <span class="summary-score-label">Innovaci\u00f3n</span>
+                        </div>
+                        <div class="summary-score">
+                            <span class="summary-score-value">${vote.impacto}</span>
+                            <span class="summary-score-label">Impacto</span>
+                        </div>
+                    </div>
+                    <div class="summary-avg">Media: ${avg}/10</div>
+                `;
+                list.appendChild(item);
+            });
+
+            showScreen('summaryScreen');
+        }
+
+        function resetVoting() {
+            if (eventCode) {
+                localStorage.removeItem('ic-votes-' + eventCode);
+            }
+            eventCode = '';
+            currentIdeaIndex = 0;
+            votes = [];
+            document.getElementById('eventCode').value = '';
+            showScreen('entryScreen');
+        }
+
+        // ===== TOAST =====
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // ===== QR CODE GENERATOR (SVG inline) =====
+        // Simplified QR-like visual (decorative pattern pointing to URL)
+        function generateQR() {
+            const svg = document.getElementById('qrCode');
+            const url = window.location.href.replace(/[^/]*$/, 'votacion.html');
+            const size = 160;
+            const modules = 21;
+            const cellSize = size / modules;
+
+            // Generate a deterministic pattern from URL
+            let seed = 0;
+            for (let i = 0; i < url.length; i++) {
+                seed = ((seed << 5) - seed) + url.charCodeAt(i);
+                seed |= 0;
+            }
+
+            function pseudoRandom() {
+                seed = (seed * 16807 + 0) % 2147483647;
+                return (seed & 1) === 1;
+            }
+
+            let html = '';
+
+            // Finder patterns (top-left, top-right, bottom-left)
+            const finderPositions = [[0, 0], [modules - 7, 0], [0, modules - 7]];
+
+            function drawFinder(sx, sy) {
+                for (let y = 0; y < 7; y++) {
+                    for (let x = 0; x < 7; x++) {
+                        const isBorder = x === 0 || x === 6 || y === 0 || y === 6;
+                        const isInner = x >= 2 && x <= 4 && y >= 2 && y <= 4;
+                        if (isBorder || isInner) {
+                            html += `<rect x="${(sx + x) * cellSize}" y="${(sy + y) * cellSize}" width="${cellSize}" height="${cellSize}" fill="#1a3a3a"/>`;
+                        }
+                    }
+                }
+            }
+
+            finderPositions.forEach(([x, y]) => drawFinder(x, y));
+
+            // Data modules
+            for (let y = 0; y < modules; y++) {
+                for (let x = 0; x < modules; x++) {
+                    // Skip finder areas
+                    const inFinder = finderPositions.some(([fx, fy]) =>
+                        x >= fx && x < fx + 7 && y >= fy && y < fy + 7
+                    );
+                    if (inFinder) continue;
+
+                    if (pseudoRandom()) {
+                        html += `<rect x="${x * cellSize}" y="${y * cellSize}" width="${cellSize}" height="${cellSize}" fill="#1a3a3a" rx="1"/>`;
+                    }
+                }
+            }
+
+            svg.innerHTML = html;
+        }
+
+        generateQR();
+    </script>
+</body>
+</html>

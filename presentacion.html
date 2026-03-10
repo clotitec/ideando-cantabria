@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ideando Cantabria &mdash; Presentaci&oacute;n</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --teal: #1a3a3a;
+            --teal-deep: #122c2c;
+            --teal-light: #24504f;
+            --crema: #f5f2ed;
+            --cobre: #b87333;
+            --dorado: #c9a96e;
+            --blanco: #ffffff;
+            --texto: #3a3a3a;
+            --texto-light: #6b6b6b;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--texto);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1.2;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--dorado);
+            z-index: 1000;
+            transition: width 0.5s ease;
+        }
+
+        /* ===== SLIDE COUNTER ===== */
+        .slide-counter {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            z-index: 1000;
+            letter-spacing: 0.1em;
+        }
+
+        .slide-counter.dark-text {
+            color: rgba(26, 58, 58, 0.3);
+        }
+
+        /* ===== NAV BUTTONS ===== */
+        .nav-buttons {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            width: 48px;
+            height: 48px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            border-color: var(--dorado);
+            color: var(--dorado);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-btn.light {
+            border-color: rgba(26, 58, 58, 0.15);
+            color: rgba(26, 58, 58, 0.4);
+            background: rgba(26, 58, 58, 0.03);
+        }
+
+        .nav-btn.light:hover {
+            border-color: var(--cobre);
+            color: var(--cobre);
+        }
+
+        /* ===== HOME LINK ===== */
+        .home-link {
+            position: fixed;
+            top: 1.5rem;
+            left: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(245, 242, 237, 0.5);
+            text-decoration: none;
+            z-index: 1000;
+            transition: color 0.3s;
+        }
+
+        .home-link:hover {
+            color: var(--dorado);
+        }
+
+        /* ===== SLIDES CONTAINER ===== */
+        .slides {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .slide.active .slide-up {
+            animation: slideUp 0.7s ease forwards;
+        }
+
+        /* ===== MONOGRAM ===== */
+        .monogram {
+            position: absolute;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(18rem, 28vw, 42rem);
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+            user-select: none;
+            line-height: 1;
+            z-index: 0;
+        }
+
+        /* ===== SLIDE ANIMATION ===== */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-up {
+            opacity: 0;
+        }
+
+        .slide-up.d1 { animation-delay: 0.1s; }
+        .slide-up.d2 { animation-delay: 0.2s; }
+        .slide-up.d3 { animation-delay: 0.35s; }
+        .slide-up.d4 { animation-delay: 0.5s; }
+        .slide-up.d5 { animation-delay: 0.65s; }
+        .slide-up.d6 { animation-delay: 0.8s; }
+
+        /* ===== LAYOUT HELPERS ===== */
+        .slide-centered {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem;
+        }
+
+        .slide-split {
+            display: flex;
+        }
+
+        .split-left, .split-right {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+            position: relative;
+        }
+
+        /* ===== BACKGROUNDS ===== */
+        .bg-teal { background: var(--teal); }
+        .bg-teal-deep { background: var(--teal-deep); }
+        .bg-crema { background: var(--crema); }
+        .bg-blanco { background: var(--blanco); }
+
+        .text-crema { color: var(--crema); }
+        .text-teal { color: var(--teal); }
+        .text-dorado { color: var(--dorado); }
+        .text-cobre { color: var(--cobre); }
+
+        /* ===== COMMON ELEMENTS ===== */
+        .overline {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.4rem 1.2rem;
+            border: 1px solid;
+            border-radius: 2px;
+            margin-top: 2rem;
+        }
+
+        /* ===== SLIDE 1: PORTADA ===== */
+        .s1-title {
+            font-size: clamp(3.5rem, 7vw, 7rem);
+            color: var(--crema);
+            margin-bottom: 1rem;
+        }
+
+        .s1-title em {
+            color: var(--dorado);
+            font-style: italic;
+        }
+
+        .s1-tagline {
+            font-size: 1.3rem;
+            color: rgba(245, 242, 237, 0.6);
+            margin-bottom: 0;
+        }
+
+        .s1-badge {
+            border-color: rgba(201, 169, 110, 0.3);
+            color: var(--dorado);
+        }
+
+        /* ===== SLIDE 2: CONTEXTO ===== */
+        .s2-title {
+            font-size: 2.4rem;
+            color: var(--teal);
+            margin-bottom: 1.5rem;
+        }
+
+        .s2-text {
+            color: var(--texto-light);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .s2-stat-big {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 6rem;
+            font-weight: 700;
+            color: var(--dorado);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .s2-stat-label {
+            font-size: 1.1rem;
+            color: rgba(245, 242, 237, 0.7);
+            margin-bottom: 3rem;
+        }
+
+        .s2-infinity {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--cobre);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .s2-infinity-label {
+            font-size: 1rem;
+            color: rgba(245, 242, 237, 0.5);
+        }
+
+        /* ===== SLIDE 3: CONCEPTO ===== */
+        .s3-paso {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .s3-paso-num {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--cobre);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            color: var(--cobre);
+            font-size: 0.9rem;
+        }
+
+        .s3-paso h4 {
+            color: var(--crema);
+            font-size: 1.1rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .s3-paso p {
+            color: rgba(245, 242, 237, 0.5);
+            font-size: 0.85rem;
+        }
+
+        .s3-card {
+            border-left: 3px solid var(--cobre);
+            padding: 1rem 1.2rem;
+            margin-bottom: 1rem;
+            background: rgba(26, 58, 58, 0.03);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .s3-card h4 {
+            font-size: 1rem;
+            color: var(--teal);
+            margin-bottom: 0.25rem;
+        }
+
+        .s3-card p {
+            font-size: 0.85rem;
+            color: var(--texto-light);
+        }
+
+        /* ===== SLIDE 4: FORMATO ===== */
+        .s4-timeline {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 0;
+            margin-top: 3rem;
+            position: relative;
+            max-width: 900px;
+        }
+
+        .s4-timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 12%;
+            right: 12%;
+            height: 2px;
+            background: rgba(184, 115, 51, 0.2);
+        }
+
+        .s4-phase {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        .s4-dot {
+            width: 14px;
+            height: 14px;
+            background: var(--cobre);
+            border-radius: 50%;
+            margin: 14px auto 1.5rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 0 4px rgba(184, 115, 51, 0.15);
+        }
+
+        .s4-time {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--cobre);
+            margin-bottom: 0.3rem;
+        }
+
+        .s4-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--teal);
+            margin-bottom: 0.3rem;
+        }
+
+        .s4-desc {
+            font-size: 0.8rem;
+            color: var(--texto-light);
+        }
+
+        /* ===== SLIDE 5: AUDIENCIAS ===== */
+        .s5-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin-top: 2.5rem;
+            max-width: 900px;
+        }
+
+        .s5-card {
+            background: var(--crema);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(26, 58, 58, 0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .s5-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(26, 58, 58, 0.08);
+        }
+
+        .s5-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .s5-card h4 {
+            font-size: 1.1rem;
+            color: var(--teal);
+            margin-bottom: 0.3rem;
+        }
+
+        .s5-card p {
+            font-size: 0.75rem;
+            color: var(--texto-light);
+        }
+
+        /* ===== SLIDE 6: PREMIOS ===== */
+        .s6-premio {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .s6-emoji {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .s6-premio h4 {
+            color: var(--crema);
+            font-size: 1.15rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .s6-premio p {
+            color: rgba(245, 242, 237, 0.55);
+            font-size: 0.85rem;
+        }
+
+        .s6-pi-box {
+            background: rgba(26, 58, 58, 0.04);
+            border: 1px solid rgba(26, 58, 58, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .s6-pi-box h3 {
+            font-size: 1.4rem;
+            color: var(--teal);
+            margin-bottom: 1.5rem;
+        }
+
+        .s6-pi-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .s6-pi-item:last-child { margin-bottom: 0; }
+
+        .s6-pi-check {
+            color: var(--cobre);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .s6-pi-item p {
+            font-size: 0.9rem;
+            color: var(--texto-light);
+        }
+
+        /* ===== SLIDE 7: MONETIZACI&Oacute;N ===== */
+        .s7-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            max-width: 800px;
+        }
+
+        .s7-card {
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(26, 58, 58, 0.08);
+        }
+
+        .s7-card h4 {
+            font-size: 1.2rem;
+            color: var(--teal);
+            margin-bottom: 0.5rem;
+        }
+
+        .s7-card p {
+            font-size: 0.85rem;
+            color: var(--texto-light);
+        }
+
+        .s7-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* ===== SLIDE 8: BENEFICIOS CIE ===== */
+        .s8-benefit {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .s8-check {
+            color: var(--dorado);
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .s8-benefit p {
+            color: rgba(245, 242, 237, 0.75);
+            font-size: 0.95rem;
+        }
+
+        .s8-kpi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .s8-kpi {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(26, 58, 58, 0.04);
+            border-radius: 12px;
+        }
+
+        .s8-kpi-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--cobre);
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .s8-kpi-label {
+            font-size: 0.8rem;
+            color: var(--texto-light);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* ===== SLIDE 9: CIERRE ===== */
+        .s9-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            color: var(--crema);
+            font-style: italic;
+            max-width: 700px;
+            margin-bottom: 3rem;
+            line-height: 1.5;
+        }
+
+        .s9-contact {
+            font-size: 1rem;
+            color: rgba(245, 242, 237, 0.5);
+        }
+
+        .s9-email {
+            color: var(--dorado);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .slide-split {
+                flex-direction: column;
+            }
+
+            .split-left, .split-right {
+                width: 100%;
+                padding: 2.5rem 2rem;
+            }
+
+            .slide-centered {
+                padding: 2rem;
+            }
+
+            .s1-title {
+                font-size: 3rem;
+            }
+
+            .s2-stat-big {
+                font-size: 4rem;
+            }
+
+            .s4-timeline {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .s4-timeline::before {
+                display: none;
+            }
+
+            .s5-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+
+            .s7-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .s8-kpi-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .s5-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- HOME LINK -->
+    <a href="index.html" class="home-link">&larr; Volver</a>
+
+    <!-- SLIDE COUNTER -->
+    <div class="slide-counter" id="slideCounter">1/9</div>
+
+    <!-- NAV BUTTONS -->
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" aria-label="Anterior">&lsaquo;</button>
+        <button class="nav-btn" id="nextBtn" aria-label="Siguiente">&rsaquo;</button>
+    </div>
+
+    <!-- SLIDES -->
+    <div class="slides" id="slides">
+
+        <!-- SLIDE 1: PORTADA -->
+        <div class="slide slide-centered bg-teal active" data-theme="dark">
+            <div class="monogram" style="right:-5%;top:50%;transform:translateY(-50%)">iC</div>
+            <span class="overline text-dorado slide-up d1">CIE Santander</span>
+            <h1 class="s1-title slide-up d2">Ideando<br><em>Cantabria</em></h1>
+            <p class="s1-tagline slide-up d3">Laboratorio ciudadano de ideas</p>
+            <span class="badge s1-badge slide-up d4">Propuesta 2026</span>
+        </div>
+
+        <!-- SLIDE 2: CONTEXTO -->
+        <div class="slide slide-split" data-theme="mixed">
+            <div class="split-left bg-crema">
+                <h2 class="s2-title slide-up d1">Las ideas existen.<br>Falta el espacio donde compartirlas.</h2>
+                <p class="s2-text slide-up d2">Cantabria tiene talento, creatividad y ganas de mejorar. Pero no existe un lugar donde las ideas ciudadanas puedan nacer, compartirse y validarse de forma colectiva. Sin filtros institucionales, sin burocracia, sin barreras.</p>
+            </div>
+            <div class="split-right bg-teal" style="align-items:center;text-align:center;">
+                <div class="monogram" style="left:-20%;top:-10%;font-size:18rem;">iC</div>
+                <div class="s2-stat-big slide-up d2">0</div>
+                <p class="s2-stat-label slide-up d3">espacios de validaci&oacute;n ciudadana<br>en Cantabria</p>
+                <div class="s2-infinity slide-up d4">&infin;</div>
+                <p class="s2-infinity-label slide-up d5">ideas esperando</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: CONCEPTO -->
+        <div class="slide slide-split" data-theme="mixed">
+            <div class="split-left bg-teal">
+                <div class="monogram" style="right:-15%;bottom:-10%;font-size:16rem;">iC</div>
+                <span class="overline text-dorado slide-up d1">El proceso</span>
+                <div class="s3-paso slide-up d2">
+                    <div class="s3-paso-num">1</div>
+                    <div>
+                        <h4>Env&iacute;a tu idea</h4>
+                        <p>Formulario online abierto a todos</p>
+                    </div>
+                </div>
+                <div class="s3-paso slide-up d3">
+                    <div class="s3-paso-num">2</div>
+                    <div>
+                        <h4>Presenta en el CIE</h4>
+                        <p>5 minutos de pitch en directo</p>
+                    </div>
+                </div>
+                <div class="s3-paso slide-up d4">
+                    <div class="s3-paso-num">3</div>
+                    <div>
+                        <h4>Votaci&oacute;n colectiva</h4>
+                        <p>El p&uacute;blico vota v&iacute;a QR</p>
+                    </div>
+                </div>
+                <div class="s3-paso slide-up d5">
+                    <div class="s3-paso-num">4</div>
+                    <div>
+                        <h4>Ranking en vivo</h4>
+                        <p>Resultados en tiempo real</p>
+                    </div>
+                </div>
+            </div>
+            <div class="split-right bg-crema">
+                <span class="overline text-cobre slide-up d1">Herramientas</span>
+                <div class="s3-card slide-up d2">
+                    <h4>Estructuraci&oacute;n IA</h4>
+                    <p>Las ideas se analizan y estructuran con inteligencia artificial</p>
+                </div>
+                <div class="s3-card slide-up d3">
+                    <h4>Presentaci&oacute;n en directo</h4>
+                    <p>Pitch ante p&uacute;blico real con feedback inmediato</p>
+                </div>
+                <div class="s3-card slide-up d4">
+                    <h4>Encuesta interactiva</h4>
+                    <p>Votaci&oacute;n con m&oacute;vil mediante c&oacute;digo QR</p>
+                </div>
+                <div class="s3-card slide-up d5">
+                    <h4>Biblioteca de Ideas</h4>
+                    <p>Repositorio p&uacute;blico de todas las propuestas presentadas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: FORMATO -->
+        <div class="slide slide-centered bg-crema" data-theme="light">
+            <span class="overline text-cobre slide-up d1">Formato</span>
+            <h2 style="font-size:2.5rem;color:var(--teal);margin-bottom:0.5rem;" class="slide-up d2">2 horas. 4 fases.</h2>
+            <p style="color:var(--texto-light);font-size:1.05rem;" class="slide-up d3">Un formato &aacute;gil dise&ntilde;ado para maximizar el impacto.</p>
+            <div class="s4-timeline slide-up d4">
+                <div class="s4-phase">
+                    <div class="s4-dot"></div>
+                    <div class="s4-time">10&prime;</div>
+                    <div class="s4-label">Apertura</div>
+                    <div class="s4-desc">Bienvenida y reglas</div>
+                </div>
+                <div class="s4-phase">
+                    <div class="s4-dot"></div>
+                    <div class="s4-time">60&prime;</div>
+                    <div class="s4-label">Presentaciones</div>
+                    <div class="s4-desc">10 pitches de 5 min</div>
+                </div>
+                <div class="s4-phase">
+                    <div class="s4-dot"></div>
+                    <div class="s4-time">40&prime;</div>
+                    <div class="s4-label">Votaci&oacute;n</div>
+                    <div class="s4-desc">QR + an&aacute;lisis IA</div>
+                </div>
+                <div class="s4-phase">
+                    <div class="s4-dot"></div>
+                    <div class="s4-time">10&prime;</div>
+                    <div class="s4-label">Resultados</div>
+                    <div class="s4-desc">Ranking y premios</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: AUDIENCIAS -->
+        <div class="slide slide-centered bg-blanco" data-theme="light">
+            <span class="overline text-cobre slide-up d1">Audiencias</span>
+            <h2 style="font-size:2.5rem;color:var(--teal);" class="slide-up d2">&iquest;Para qui&eacute;n es?</h2>
+            <div class="s5-grid slide-up d3">
+                <div class="s5-card">
+                    <div class="s5-icon">&#127987;&#65039;</div>
+                    <h4>Ciudadanos</h4>
+                    <p>Vecinos con ideas para su comunidad</p>
+                </div>
+                <div class="s5-card">
+                    <div class="s5-icon">&#128640;</div>
+                    <h4>Emprendedores</h4>
+                    <p>Startups validando conceptos</p>
+                </div>
+                <div class="s5-card">
+                    <div class="s5-icon">&#127970;</div>
+                    <h4>Empresas</h4>
+                    <p>Innovaci&oacute;n abierta y talento</p>
+                </div>
+                <div class="s5-card">
+                    <div class="s5-icon">&#127891;</div>
+                    <h4>J&oacute;venes</h4>
+                    <p>Energ&iacute;a e ideas frescas</p>
+                </div>
+                <div class="s5-card">
+                    <div class="s5-icon">&#127793;</div>
+                    <h4>Seniors</h4>
+                    <p>Experiencia y sabidur&iacute;a</p>
+                </div>
+                <div class="s5-card">
+                    <div class="s5-icon">&#11088;</div>
+                    <h4>Edici&oacute;n Junior</h4>
+                    <p>Menores de 16 con categor&iacute;a propia</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: PREMIOS -->
+        <div class="slide slide-split" data-theme="mixed">
+            <div class="split-left bg-teal">
+                <div class="monogram" style="right:-15%;top:-10%;font-size:16rem;">iC</div>
+                <span class="overline text-dorado slide-up d1">Premios</span>
+                <div class="s6-premio slide-up d2">
+                    <div class="s6-emoji">&#127942;</div>
+                    <div>
+                        <h4>Mejor Negocio</h4>
+                        <p>3 meses coworking + acceso a inversores</p>
+                    </div>
+                </div>
+                <div class="s6-premio slide-up d3">
+                    <div class="s6-emoji">&#129309;</div>
+                    <div>
+                        <h4>Impacto Social</h4>
+                        <p>6 meses de mentor&iacute;a + medios</p>
+                    </div>
+                </div>
+                <div class="s6-premio slide-up d4">
+                    <div class="s6-emoji">&#128161;</div>
+                    <div>
+                        <h4>M&aacute;s Innovadora</h4>
+                        <p>Programa aceleraci&oacute;n + inversores</p>
+                    </div>
+                </div>
+            </div>
+            <div class="split-right bg-crema">
+                <div class="s6-pi-box slide-up d2">
+                    <h3>Propiedad intelectual</h3>
+                    <div class="s6-pi-item">
+                        <span class="s6-pi-check">&#10003;</span>
+                        <p><strong>Autor&iacute;a registrada</strong> &mdash; Cada idea queda vinculada a su autor</p>
+                    </div>
+                    <div class="s6-pi-item">
+                        <span class="s6-pi-check">&#10003;</span>
+                        <p><strong>Derecho 2 a&ntilde;os</strong> &mdash; Exclusividad sobre la idea durante 24 meses</p>
+                    </div>
+                    <div class="s6-pi-item">
+                        <span class="s6-pi-check">&#10003;</span>
+                        <p><strong>Traspaso voluntario</strong> &mdash; El autor decide si cede o comparte</p>
+                    </div>
+                    <div class="s6-pi-item">
+                        <span class="s6-pi-check">&#10003;</span>
+                        <p><strong>Liberaci&oacute;n abierta</strong> &mdash; Tras 2 a&ntilde;os, la idea pasa a dominio p&uacute;blico</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: MONETIZACI&Oacute;N -->
+        <div class="slide slide-centered bg-crema" data-theme="light">
+            <span class="overline text-cobre slide-up d1">Modelo de negocio</span>
+            <h2 style="font-size:2.5rem;color:var(--teal);" class="slide-up d2">Monetizaci&oacute;n</h2>
+            <div class="s7-grid slide-up d3">
+                <div class="s7-card">
+                    <div class="s7-icon">&#127380;</div>
+                    <h4>Patrocinios</h4>
+                    <p>Empresas locales patrocinan el evento a cambio de visibilidad y acceso al talento.</p>
+                </div>
+                <div class="s7-card">
+                    <div class="s7-icon">&#127463;</div>
+                    <h4>Franquicia municipal</h4>
+                    <p>Ideando Torrelavega, Ideando Castro&hellip; Replicable en cada municipio.</p>
+                </div>
+                <div class="s7-card">
+                    <div class="s7-icon">&#128218;</div>
+                    <h4>Biblioteca de Ideas</h4>
+                    <p>Acceso premium al repositorio de ideas validadas para empresas e instituciones.</p>
+                </div>
+                <div class="s7-card">
+                    <div class="s7-icon">&#128187;</div>
+                    <h4>Plataforma digital</h4>
+                    <p>Versi&oacute;n online del evento con votaci&oacute;n, an&aacute;lisis y comunidad.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: BENEFICIOS CIE -->
+        <div class="slide slide-split" data-theme="mixed">
+            <div class="split-left bg-teal-deep">
+                <div class="monogram" style="right:-15%;top:-10%;font-size:16rem;">iC</div>
+                <span class="overline text-dorado slide-up d1">Beneficios para el CIE</span>
+                <div class="s8-benefit slide-up d2">
+                    <span class="s8-check">&#10003;</span>
+                    <p>Posicionamiento como hub de innovaci&oacute;n ciudadana</p>
+                </div>
+                <div class="s8-benefit slide-up d2">
+                    <span class="s8-check">&#10003;</span>
+                    <p>Contenido y actividad recurrente de alto impacto</p>
+                </div>
+                <div class="s8-benefit slide-up d3">
+                    <span class="s8-check">&#10003;</span>
+                    <p>Conexi&oacute;n directa con el ecosistema emprendedor</p>
+                </div>
+                <div class="s8-benefit slide-up d3">
+                    <span class="s8-check">&#10003;</span>
+                    <p>Visibilidad en medios y redes sociales</p>
+                </div>
+                <div class="s8-benefit slide-up d4">
+                    <span class="s8-check">&#10003;</span>
+                    <p>Formato replicable y escalable</p>
+                </div>
+                <div class="s8-benefit slide-up d4">
+                    <span class="s8-check">&#10003;</span>
+                    <p>Coste pr&aacute;cticamente cero para el centro</p>
+                </div>
+            </div>
+            <div class="split-right bg-crema">
+                <span class="overline text-cobre slide-up d1">KPIs estimados</span>
+                <div class="s8-kpi-grid slide-up d2">
+                    <div class="s8-kpi">
+                        <div class="s8-kpi-number">20</div>
+                        <div class="s8-kpi-label">Ideas / a&ntilde;o</div>
+                    </div>
+                    <div class="s8-kpi">
+                        <div class="s8-kpi-number">200+</div>
+                        <div class="s8-kpi-label">Participantes</div>
+                    </div>
+                    <div class="s8-kpi">
+                        <div class="s8-kpi-number">2</div>
+                        <div class="s8-kpi-label">Eventos / a&ntilde;o</div>
+                    </div>
+                    <div class="s8-kpi">
+                        <div class="s8-kpi-number">~0&euro;</div>
+                        <div class="s8-kpi-label">Coste para el CIE</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: CIERRE -->
+        <div class="slide slide-centered bg-teal-deep" data-theme="dark">
+            <div class="monogram" style="left:50%;top:50%;transform:translate(-50%,-50%)">iC</div>
+            <p class="s9-quote slide-up d1">&ldquo;Muchas empresas nacen de una idea.<br>Ideando Cantabria busca crear el lugar donde nazcan.&rdquo;</p>
+            <div class="slide-up d3">
+                <p class="s9-contact">Contacto</p>
+                <p class="s9-email" style="margin-top:0.5rem;">info@clotitec.com</p>
+            </div>
+            <span class="badge s1-badge slide-up d4" style="border-color:rgba(201,169,110,0.3);color:var(--dorado);">Ideando Cantabria 2026</span>
+        </div>
+
+    </div>
+
+    <script>
+        // ===== SLIDE ENGINE =====
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const slideCounter = document.getElementById('slideCounter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+
+        function goToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+
+            slides[currentSlide].classList.remove('active');
+            // Reset animations
+            slides[currentSlide].querySelectorAll('.slide-up').forEach(el => {
+                el.style.animation = 'none';
+                el.offsetHeight; // trigger reflow
+                el.style.animation = '';
+            });
+
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+
+            // Update progress
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+
+            // Update counter
+            slideCounter.textContent = (currentSlide + 1) + '/' + totalSlides;
+
+            // Update theme of UI elements
+            const theme = slides[currentSlide].dataset.theme;
+            if (theme === 'light') {
+                slideCounter.classList.add('dark-text');
+                prevBtn.classList.add('light');
+                nextBtn.classList.add('light');
+            } else {
+                slideCounter.classList.remove('dark-text');
+                prevBtn.classList.remove('light');
+                nextBtn.classList.remove('light');
+            }
+        }
+
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Button navigation
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        // Touch/swipe navigation
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 60) {
+                if (diff > 0) nextSlide();
+                else prevSlide();
+            }
+        }, { passive: true });
+
+        // Initialize first slide
+        goToSlide(0);
+    </script>
+</body>
+</html>

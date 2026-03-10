@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ideando Cantabria &mdash; Laboratorio Ciudadano de Ideas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --teal: #1a3a3a;
+            --teal-light: #24504f;
+            --crema: #f5f2ed;
+            --cobre: #b87333;
+            --cobre-hover: #a0622b;
+            --dorado: #c9a96e;
+            --blanco: #ffffff;
+            --texto: #3a3a3a;
+            --texto-light: #6b6b6b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--texto);
+            background: var(--crema);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1.2;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== UTILITIES ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== MONOGRAM BACKGROUND ===== */
+        .monogram {
+            position: absolute;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(20rem, 30vw, 45rem);
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+            user-select: none;
+            line-height: 1;
+            z-index: 0;
+        }
+
+        /* ===== NAV ===== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: background 0.4s, padding 0.4s;
+        }
+
+        .nav.scrolled {
+            background: rgba(26, 58, 58, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0.6rem 0;
+        }
+
+        .nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--crema);
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(245, 242, 237, 0.8);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--dorado);
+        }
+
+        .nav-cta {
+            background: var(--cobre);
+            color: var(--crema) !important;
+            padding: 0.6rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600 !important;
+            transition: background 0.3s !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--cobre-hover);
+            color: var(--crema) !important;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--crema);
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            background: var(--teal);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 8rem 0 5rem;
+        }
+
+        .hero .monogram {
+            right: -5%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 750px;
+        }
+
+        .hero-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--dorado);
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 2px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            color: var(--crema);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .hero h1 em {
+            color: var(--dorado);
+            font-style: italic;
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            color: rgba(245, 242, 237, 0.7);
+            max-width: 580px;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--cobre);
+            color: var(--crema);
+            padding: 1rem 2.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.03em;
+            transition: background 0.3s, transform 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--cobre-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            display: inline-block;
+            color: var(--crema);
+            padding: 1rem 2.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.03em;
+            border: 1px solid rgba(245, 242, 237, 0.3);
+            transition: border-color 0.3s, color 0.3s, transform 0.3s;
+            cursor: pointer;
+            background: none;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--dorado);
+            color: var(--dorado);
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dorado);
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: rgba(245, 242, 237, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* ===== CONCEPTO ===== */
+        .concepto {
+            padding: 7rem 0;
+        }
+
+        .concepto-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .concepto-text h2 {
+            font-size: 2.8rem;
+            color: var(--teal);
+            margin-bottom: 1.5rem;
+        }
+
+        .concepto-text p {
+            color: var(--texto-light);
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+
+        .concepto-highlight {
+            font-weight: 600;
+            color: var(--cobre);
+        }
+
+        .concepto-pasos {
+            background: var(--teal);
+            border-radius: 12px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concepto-pasos .monogram {
+            right: -10%;
+            top: -20%;
+            font-size: 15rem;
+        }
+
+        .concepto-pasos h3 {
+            color: var(--dorado);
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .paso {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .paso:last-child {
+            margin-bottom: 0;
+        }
+
+        .paso-num {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: rgba(184, 115, 51, 0.15);
+            border: 1px solid var(--cobre);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            color: var(--cobre);
+            font-size: 1rem;
+        }
+
+        .paso-content h4 {
+            color: var(--crema);
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .paso-content p {
+            color: rgba(245, 242, 237, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .paso-arrow {
+            color: var(--dorado);
+            text-align: center;
+            margin: 0.5rem 0 0.5rem 1rem;
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        /* ===== FORMATO ===== */
+        .formato {
+            background: var(--teal);
+            padding: 7rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .formato .monogram {
+            left: -5%;
+            bottom: -10%;
+        }
+
+        .formato h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--crema);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .formato-sub {
+            text-align: center;
+            color: rgba(245, 242, 237, 0.6);
+            margin-bottom: 4rem;
+            font-size: 1.05rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background: rgba(201, 169, 110, 0.2);
+        }
+
+        .timeline-item {
+            text-align: center;
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: var(--cobre);
+            border-radius: 50%;
+            margin: 32px auto 2rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 0 4px rgba(184, 115, 51, 0.2);
+        }
+
+        .timeline-time {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dorado);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--crema);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            color: rgba(245, 242, 237, 0.5);
+            font-size: 0.85rem;
+        }
+
+        /* ===== AUDIENCIAS ===== */
+        .audiencias {
+            padding: 7rem 0;
+        }
+
+        .audiencias h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--teal);
+            margin-bottom: 1rem;
+        }
+
+        .audiencias-sub {
+            text-align: center;
+            color: var(--texto-light);
+            margin-bottom: 4rem;
+            font-size: 1.05rem;
+        }
+
+        .audiencias-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .audiencia-card {
+            background: var(--blanco);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(26, 58, 58, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            cursor: default;
+        }
+
+        .audiencia-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(26, 58, 58, 0.1);
+            border-color: var(--cobre);
+        }
+
+        .audiencia-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .audiencia-card h3 {
+            font-size: 1.3rem;
+            color: var(--teal);
+            margin-bottom: 0.5rem;
+        }
+
+        .audiencia-card p {
+            color: var(--texto-light);
+            font-size: 0.9rem;
+        }
+
+        /* ===== PREMIOS ===== */
+        .premios {
+            background: var(--teal);
+            padding: 7rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premios .monogram {
+            right: -5%;
+            top: -10%;
+        }
+
+        .premios h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--crema);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .premios-sub {
+            text-align: center;
+            color: rgba(245, 242, 237, 0.6);
+            margin-bottom: 4rem;
+            font-size: 1.05rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .premios-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .premio-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 110, 0.15);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .premio-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--dorado);
+        }
+
+        .premio-badge {
+            display: inline-block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--dorado);
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            padding: 0.3rem 1rem;
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .premio-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .premio-card h3 {
+            color: var(--crema);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .premio-card p {
+            color: rgba(245, 242, 237, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .premio-incentivo {
+            color: var(--cobre) !important;
+            font-weight: 600;
+            font-size: 0.95rem !important;
+        }
+
+        /* ===== FORMULARIO ===== */
+        .formulario {
+            padding: 7rem 0;
+        }
+
+        .formulario h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--teal);
+            margin-bottom: 1rem;
+        }
+
+        .formulario-sub {
+            text-align: center;
+            color: var(--texto-light);
+            margin-bottom: 3rem;
+            font-size: 1.05rem;
+        }
+
+        .form-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--blanco);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(26, 58, 58, 0.06);
+            border: 1px solid rgba(26, 58, 58, 0.06);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            padding: 0.9rem 1rem;
+            border: 1px solid rgba(26, 58, 58, 0.15);
+            border-radius: 6px;
+            background: var(--crema);
+            color: var(--texto);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--cobre);
+            box-shadow: 0 0 0 3px rgba(184, 115, 51, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-submit {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .form-submit .btn-primary {
+            padding: 1rem 3rem;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        /* ===== FORM STATES ===== */
+        .btn-primary.sending {
+            pointer-events: none;
+            opacity: 0.8;
+            padding-left: 3.5rem;
+        }
+
+        .btn-primary.sending::before {
+            content: '';
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(245, 242, 237, 0.3);
+            border-top-color: var(--crema);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        .btn-primary.success {
+            background: #2d8a4e;
+            pointer-events: none;
+        }
+
+        .btn-primary.error {
+            background: #c0392b;
+        }
+
+        .form-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .form-message.show {
+            display: block;
+        }
+
+        .form-message.success {
+            background: rgba(45, 138, 78, 0.08);
+            color: #2d8a4e;
+            border: 1px solid rgba(45, 138, 78, 0.15);
+        }
+
+        .form-message.error {
+            background: rgba(192, 57, 43, 0.08);
+            color: #c0392b;
+            border: 1px solid rgba(192, 57, 43, 0.15);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--teal);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--crema);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer p {
+            color: rgba(245, 242, 237, 0.4);
+            font-size: 0.8rem;
+        }
+
+        .footer-links {
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: rgba(245, 242, 237, 0.5);
+            font-size: 0.8rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--dorado);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .concepto-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .timeline {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .timeline::before {
+                display: none;
+            }
+
+            .audiencias-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .premios-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(26, 58, 58, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .hero {
+                padding: 7rem 0 4rem;
+            }
+
+            .hero-stats {
+                gap: 2rem;
+            }
+
+            .timeline {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .audiencias-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="nav" id="nav">
+        <div class="container">
+            <a href="#" class="nav-logo">Ideando Cantabria</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#concepto">Concepto</a></li>
+                <li><a href="#formato">Formato</a></li>
+                <li><a href="#audiencias">Participa</a></li>
+                <li><a href="#premios">Premios</a></li>
+                <li><a href="#formulario" class="nav-cta">Enviar idea</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir men&uacute;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+        <div class="monogram">iC</div>
+        <div class="container">
+            <div class="hero-content fade-up">
+                <span class="hero-label">Laboratorio Ciudadano de Ideas</span>
+                <h1>Ideando<br><em>Cantabria</em></h1>
+                <p class="hero-sub">Laboratorio ciudadano donde las ideas nacen, se validan colectivamente y se convierten en proyectos reales.</p>
+                <div class="hero-buttons">
+                    <a href="#formulario" class="btn-primary">Enviar mi idea</a>
+                    <a href="#concepto" class="btn-outline">C&oacute;mo funciona</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Ideas por evento</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Asistentes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">2h</div>
+                        <div class="stat-label">Formato &aacute;gil</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONCEPTO -->
+    <section class="concepto" id="concepto">
+        <div class="container">
+            <div class="concepto-grid">
+                <div class="concepto-text fade-up">
+                    <h2>El concepto</h2>
+                    <p><strong class="concepto-highlight">Ideando Cantabria</strong> es un evento participativo donde cualquier persona puede presentar una idea ante un p&uacute;blico real. Las propuestas se validan colectivamente mediante votaci&oacute;n en directo.</p>
+                    <p>Cada idea recibe <strong class="concepto-highlight">feedback inmediato</strong> del p&uacute;blico y un an&aacute;lisis asistido por inteligencia artificial. La autor&iacute;a de cada idea queda registrada y protegida durante 2 a&ntilde;os.</p>
+                    <p>No importa tu edad, profesi&oacute;n o experiencia. Si tienes una idea que puede mejorar Cantabria, este es tu escenario.</p>
+                </div>
+                <div class="concepto-pasos fade-up">
+                    <div class="monogram">iC</div>
+                    <h3>C&oacute;mo funciona</h3>
+                    <div class="paso">
+                        <div class="paso-num">1</div>
+                        <div class="paso-content">
+                            <h4>Env&iacute;a tu idea</h4>
+                            <p>Rellena el formulario con tu propuesta. Sin filtros, sin burocracia.</p>
+                        </div>
+                    </div>
+                    <div class="paso-arrow">&darr;</div>
+                    <div class="paso">
+                        <div class="paso-num">2</div>
+                        <div class="paso-content">
+                            <h4>Presenta en el CIE</h4>
+                            <p>Sube al escenario y cuenta tu idea en 5 minutos ante el p&uacute;blico.</p>
+                        </div>
+                    </div>
+                    <div class="paso-arrow">&darr;</div>
+                    <div class="paso">
+                        <div class="paso-num">3</div>
+                        <div class="paso-content">
+                            <h4>Votaci&oacute;n QR</h4>
+                            <p>El p&uacute;blico vota en directo escaneando un c&oacute;digo QR desde su m&oacute;vil.</p>
+                        </div>
+                    </div>
+                    <div class="paso-arrow">&darr;</div>
+                    <div class="paso">
+                        <div class="paso-num">4</div>
+                        <div class="paso-content">
+                            <h4>Ranking en vivo</h4>
+                            <p>Las ideas se ordenan por votos en tiempo real. Las mejores ganan premios.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMATO -->
+    <section class="formato" id="formato">
+        <div class="monogram">iC</div>
+        <div class="container">
+            <h2 class="fade-up">El formato</h2>
+            <p class="formato-sub fade-up">2 horas, 4 fases, un resultado claro.</p>
+            <div class="timeline fade-up">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-time">10 min</div>
+                    <div class="timeline-title">Apertura</div>
+                    <div class="timeline-desc">Bienvenida, reglas del juego y presentaci&oacute;n de la din&aacute;mica</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-time">60 min</div>
+                    <div class="timeline-title">Presentaciones</div>
+                    <div class="timeline-desc">Cada idea sube al escenario: 5 min de pitch + 1 min de preguntas</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-time">40 min</div>
+                    <div class="timeline-title">Votaci&oacute;n</div>
+                    <div class="timeline-desc">El p&uacute;blico vota con QR. An&aacute;lisis IA en tiempo real</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-time">10 min</div>
+                    <div class="timeline-title">Resultados</div>
+                    <div class="timeline-desc">Ranking final, premios y networking entre participantes</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AUDIENCIAS -->
+    <section class="audiencias" id="audiencias">
+        <div class="container">
+            <h2 class="fade-up">&iquest;Para qui&eacute;n es?</h2>
+            <p class="audiencias-sub fade-up">Cualquier persona con una idea. Sin requisitos, sin exclusiones.</p>
+            <div class="audiencias-grid">
+                <div class="audiencia-card fade-up">
+                    <div class="audiencia-icon">&#127987;&#65039;</div>
+                    <h3>Ciudadanos</h3>
+                    <p>Vecinos con ideas para mejorar su barrio, pueblo o ciudad. La voz de la calle en el escenario.</p>
+                </div>
+                <div class="audiencia-card fade-up">
+                    <div class="audiencia-icon">&#128640;</div>
+                    <h3>Emprendedores</h3>
+                    <p>Startups y proyectos en fase temprana que buscan validar su propuesta ante un p&uacute;blico real.</p>
+                </div>
+                <div class="audiencia-card fade-up">
+                    <div class="audiencia-icon">&#127970;</div>
+                    <h3>Empresas</h3>
+                    <p>Organizaciones que quieren innovar desde dentro o descubrir talento y oportunidades locales.</p>
+                </div>
+                <div class="audiencia-card fade-up">
+                    <div class="audiencia-icon">&#127891;</div>
+                    <h3>J&oacute;venes</h3>
+                    <p>Estudiantes y j&oacute;venes profesionales con energ&iacute;a, ideas frescas y ganas de cambiar las cosas.</p>
+                </div>
+                <div class="audiencia-card fade-up">
+                    <div class="audiencia-icon">&#127793;</div>
+                    <h3>Seniors</h3>
+                    <p>Experiencia y sabidur&iacute;a al servicio de la innovaci&oacute;n. Las mejores ideas no tienen edad.</p>
+                </div>
+                <div class="audiencia-card fade-up">
+                    <div class="audiencia-icon">&#11088;</div>
+                    <h3>Junior</h3>
+                    <p>Los m&aacute;s peque&ntilde;os tambi&eacute;n idean. Categor&iacute;a especial para menores de 16 a&ntilde;os.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREMIOS -->
+    <section class="premios" id="premios">
+        <div class="monogram">iC</div>
+        <div class="container">
+            <h2 class="fade-up">Premios</h2>
+            <p class="premios-sub fade-up">Incentivos reales para las mejores ideas.</p>
+            <div class="premios-grid">
+                <div class="premio-card fade-up">
+                    <div class="premio-badge">1&ordm; Premio</div>
+                    <div class="premio-icon">&#127942;</div>
+                    <h3>Mejor Negocio</h3>
+                    <p>La idea con mayor viabilidad comercial y potencial de mercado.</p>
+                    <p class="premio-incentivo">3 meses de coworking gratuito + acceso a red de inversores</p>
+                </div>
+                <div class="premio-card fade-up">
+                    <div class="premio-badge">2&ordm; Premio</div>
+                    <div class="premio-icon">&#129309;</div>
+                    <h3>Impacto Social</h3>
+                    <p>La propuesta que m&aacute;s contribuye al bienestar de la comunidad c&aacute;ntabra.</p>
+                    <p class="premio-incentivo">6 meses de mentor&iacute;a personalizada + visibilidad en medios</p>
+                </div>
+                <div class="premio-card fade-up">
+                    <div class="premio-badge">3&ordm; Premio</div>
+                    <div class="premio-icon">&#128161;</div>
+                    <h3>M&aacute;s Innovadora</h3>
+                    <p>La idea m&aacute;s original, disruptiva y con mayor factor sorpresa.</p>
+                    <p class="premio-incentivo">Programa de aceleraci&oacute;n + conexi&oacute;n directa con inversores</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section class="formulario" id="formulario">
+        <div class="container">
+            <h2 class="fade-up">Env&iacute;a tu idea</h2>
+            <p class="formulario-sub fade-up">Cu&eacute;ntanos tu propuesta. Sin filtros, sin burocracia.</p>
+            <div class="form-wrapper fade-up">
+                <form id="ideaForm" class="form-grid" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="nombre">Nombre completo</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="titulo">T&iacute;tulo de la idea</label>
+                        <input type="text" id="titulo" name="titulo" placeholder="Dale un nombre a tu idea" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoria">Categor&iacute;a</label>
+                        <select id="categoria" name="categoria" required>
+                            <option value="" disabled selected>Selecciona una categor&iacute;a</option>
+                            <option value="negocio">Negocio / Emprendimiento</option>
+                            <option value="social">Impacto Social</option>
+                            <option value="tecnologia">Tecnolog&iacute;a / Innovaci&oacute;n</option>
+                            <option value="cultura">Cultura / Turismo</option>
+                            <option value="medioambiente">Medio Ambiente</option>
+                            <option value="educacion">Educaci&oacute;n</option>
+                            <option value="otro">Otra</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="descripcion">Describe tu idea</label>
+                        <textarea id="descripcion" name="descripcion" placeholder="Explica brevemente tu idea: qu&eacute; problema resuelve, a qui&eacute;n beneficia y por qu&eacute; es importante para Cantabria." required></textarea>
+                    </div>
+                    <div class="form-submit">
+                        <button type="submit" class="btn-primary" id="submitBtn">Enviar idea</button>
+                    </div>
+                    <div class="form-message" id="formMessage"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Ideando Cantabria</div>
+            <div class="footer-links">
+                <a href="#concepto">Concepto</a>
+                <a href="#formato">Formato</a>
+                <a href="#premios">Premios</a>
+                <a href="#formulario">Enviar idea</a>
+                <a href="presentacion.html">Presentaci&oacute;n</a>
+            </div>
+            <p>&copy; 2026 Ideando Cantabria &mdash; Laboratorio Ciudadano de Ideas</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== NAV SCROLL =====
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ===== NAV MOBILE TOGGLE =====
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu on link click
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // ===== FADE UP ANIMATION =====
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ===== FORM SUBMIT (Google Sheets) =====
+        // IMPORTANTE: Reemplaza esta URL con la de tu Google Apps Script desplegado
+        const GOOGLE_SCRIPT_URL = 'TU_URL_DE_GOOGLE_APPS_SCRIPT_AQUI';
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const btn = document.getElementById('submitBtn');
+            const msg = document.getElementById('formMessage');
+
+            // Validación básica
+            const fields = ['nombre', 'email', 'titulo', 'categoria', 'descripcion'];
+            for (const field of fields) {
+                if (!form[field].value.trim()) {
+                    showMessage(msg, 'Por favor, completa todos los campos.', 'error');
+                    form[field].focus();
+                    return;
+                }
+            }
+
+            // Estado: enviando
+            btn.textContent = 'Enviando...';
+            btn.classList.add('sending');
+            msg.classList.remove('show');
+
+            const data = Object.fromEntries(new FormData(form).entries());
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                // Con mode: 'no-cors' siempre llega aquí (opaque response)
+                btn.textContent = '\u2713 Enviada';
+                btn.classList.remove('sending');
+                btn.classList.add('success');
+                showMessage(msg, '\u00a1Gracias! Tu idea ha sido registrada. Te contactaremos pronto.', 'success');
+                form.reset();
+
+                setTimeout(() => {
+                    btn.textContent = 'Enviar idea';
+                    btn.classList.remove('success');
+                }, 4000);
+            } catch (error) {
+                btn.textContent = 'Error - Reintentar';
+                btn.classList.remove('sending');
+                btn.classList.add('error');
+                showMessage(msg, 'Hubo un error al enviar. Por favor, int\u00e9ntalo de nuevo.', 'error');
+
+                setTimeout(() => {
+                    btn.textContent = 'Enviar idea';
+                    btn.classList.remove('error');
+                }, 4000);
+            }
+        }
+
+        function showMessage(el, text, type) {
+            el.textContent = text;
+            el.className = 'form-message show ' + type;
+        }
+    </script>
+</body>
+</html>
