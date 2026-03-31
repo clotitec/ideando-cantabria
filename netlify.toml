@@ -1,18 +1,7 @@
 [build]
   publish = "."
 
-# Redirects
-[[redirects]]
-  from = "/presentacion"
-  to = "/presentacion.html"
-  status = 200
-
-[[redirects]]
-  from = "/votacion"
-  to = "/votacion.html"
-  status = 200
-
-# SPA fallback (optional)
+# SPA fallback
 [[redirects]]
   from = "/*"
   to = "/index.html"
